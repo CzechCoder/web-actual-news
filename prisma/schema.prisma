@@ -8,21 +8,20 @@ datasource db {
 }
 
 model Article {
-  id          String   @id @default(uuid())
+  id          Int       @id @default(autoincrement())
   title       String
-  content     String
+  slug        String    @unique
   excerpt     String
-  slug        String   @unique
-  imageUrl    String?
-  publishedAt DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  categories  Category[]
+  content     String
+  image_url    String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  category    Category  @relation(fields: [category_id], references: [id])
+  category_id  Int
 }
 
 model Category {
-  id       String   @id @default(uuid())
-  name     String   @unique
-  slug     String   @unique
-  articles Article[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  articles  Article[]
 }
