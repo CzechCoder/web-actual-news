@@ -1,12 +1,4 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Grid, List, ListItem, Stack, Typography } from "@mui/material";
 
 import { getArticles } from "@/app/actions";
 import { Article } from "@/app/types/general";
@@ -15,9 +7,9 @@ import {
   HeadlinePost,
   SnippetPost,
   TitlePost,
-} from "./components/post-card";
+} from "@/app/components/post-card";
 
-export const dynamic = "force-dynamic"; // for SSR
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const articles = await getArticles();
@@ -34,15 +26,15 @@ export default async function HomePage() {
 
   // Left column
   const featured = articles[0];
-  const titles = articles.slice(1, 7);
-  const thumbs = articles.slice(7, 10);
+  const titles = articles.slice(1, 6);
+  const thumbs = articles.slice(6, 9);
 
   // Middle column
-  const headlinesBig = articles.slice(10, 13);
+  const headlinesBig = articles.slice(9, 12);
 
   // Right column
-  const headlinesMedium = articles.slice(13, 15);
-  const headlinesSmall = articles.slice(15, 19);
+  const headlinesMedium = articles.slice(12, 14);
+  const headlinesSmall = articles.slice(14, 20);
 
   return (
     <main>
@@ -50,16 +42,12 @@ export default async function HomePage() {
         <Grid container spacing={3}>
           {/* Left */}
           <Grid size={5}>
-            <Stack
-              // className="border-amber-600 border"
-              direction="column"
-              gap={1}
-            >
+            <Stack direction="column" gap={1}>
               <FeaturedPost {...featured} />
               <Stack>
                 <List dense sx={{ listStyleType: "disc", pl: 4 }}>
                   {titles.map((article: Article) => (
-                    <ListItem sx={{ display: "list-item" }}>
+                    <ListItem sx={{ display: "list-item" }} key={article.id}>
                       <TitlePost
                         key={article.id}
                         slug={article.slug}
@@ -78,7 +66,6 @@ export default async function HomePage() {
           </Grid>
           {/* Middle */}
           <Grid size={4}>
-            {/* <div className="w-full border-amber-600 border">Articles</div> */}
             <Stack direction="column" gap={2}>
               {headlinesBig.map((article: Article) => (
                 <HeadlinePost key={article.id} {...article} />
@@ -87,7 +74,6 @@ export default async function HomePage() {
           </Grid>
           {/* Right */}
           <Grid size={3}>
-            {/* <div className="w-full border-amber-600 border">Articles</div> */}
             <Stack direction="column" gap={2}>
               {headlinesMedium.map((article: Article) => (
                 <HeadlinePost key={article.id} {...article} />

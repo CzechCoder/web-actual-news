@@ -1,16 +1,7 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-
-type PostCardProps = {
-  slug?: string;
-  title?: string;
-  image_url?: string;
-  excerpt?: string;
-  type: "featured" | "only-title" | "headline-vertical" | "headline-horizontal";
-  titleSize?: "large" | "medium" | "small";
-};
 
 type FeaturedProps = {
   slug: string;
@@ -18,6 +9,22 @@ type FeaturedProps = {
   image_url: string;
   excerpt: string;
 };
+
+type HeadlineProps = {
+  slug: string;
+  title: string;
+  image_url: string;
+  titleSize?: "medium" | "small";
+};
+
+type SnippetProps = {
+  slug: string;
+  image_url: string;
+  title: string;
+  type: "horizontal" | "vertical" | "horizontal-reversed";
+};
+
+type TitleProps = { slug: string; title: string };
 
 const CustomText = ({
   text,
@@ -50,21 +57,45 @@ const CustomImage = ({ image_url }: { image_url: string }) => (
   />
 );
 
-export const SnippetPost = ({
+export const SnippetPost: FC<SnippetProps> = ({
   slug,
   image_url,
   title,
   type,
-}: {
-  slug: string;
-  image_url: string;
-  title: string;
-  type: "horizontal" | "vertical";
 }) => (
-  <Link href={`/article/${slug}`}>
-    <Stack flexDirection={type === "horizontal" ? "row" : "column"} gap={1}>
-      <CustomImage image_url={image_url} />
-      <CustomText text={title} variant="smallTitle" />
+  <Link href={`/article/${slug}`} style={{ textDecoration: "none" }}>
+    {type === "horizontal" && <Divider sx={{ mb: 2 }} />}
+    <Stack
+      gap={1}
+      direction={
+        type === "horizontal"
+          ? "row"
+          : type === "horizontal-reversed"
+          ? "row-reverse"
+          : "column"
+      }
+      sx={{
+        width: "100%",
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          width: type === "horizontal" ? "130px" : "100%",
+          minWidth: type === "horizontal" ? "130px" : undefined,
+          // aspectRatio: type === "horizontal" ? "1/1" : undefined,
+        }}
+      >
+        <CustomImage image_url={image_url} />
+      </Box>
+      <Box
+        sx={{
+          flex: type === "horizontal" ? 1 : undefined,
+          overflow: "hidden",
+        }}
+      >
+        <CustomText text={title} variant="smallTitle" />
+      </Box>
     </Stack>
   </Link>
 );
@@ -84,13 +115,6 @@ export const FeaturedPost: FC<FeaturedProps> = ({
   </Link>
 );
 
-type HeadlineProps = {
-  slug: string;
-  title: string;
-  image_url: string;
-  titleSize?: "medium" | "small";
-};
-
 export const HeadlinePost: FC<HeadlineProps> = ({
   slug,
   title,
@@ -108,7 +132,7 @@ export const HeadlinePost: FC<HeadlineProps> = ({
   </Link>
 );
 
-export const TitlePost = ({ slug, title }: { slug: string; title: string }) => (
+export const TitlePost: FC<TitleProps> = ({ slug, title }) => (
   <Link href={`/article/${slug}`}>
     <CustomText text={title} variant="smallTitle" />
   </Link>

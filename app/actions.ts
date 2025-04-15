@@ -8,7 +8,7 @@ export async function getArticles() {
       category: true,
     },
     orderBy: {
-      created_at: "desc",
+      id: "asc",
     },
     take: 20,
   });
