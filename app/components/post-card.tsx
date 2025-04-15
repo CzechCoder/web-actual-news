@@ -22,6 +22,7 @@ type SnippetProps = {
   image_url: string;
   title: string;
   type: "horizontal" | "vertical" | "horizontal-reversed";
+  className?: string;
 };
 
 type TitleProps = { slug: string; title: string };
@@ -62,9 +63,13 @@ export const SnippetPost: FC<SnippetProps> = ({
   image_url,
   title,
   type,
+  className,
 }) => (
-  <Link href={`/article/${slug}`} style={{ textDecoration: "none" }}>
-    {type === "horizontal" && <Divider sx={{ mb: 2 }} />}
+  <Link
+    href={`/article/${slug}`}
+    style={{ textDecoration: "none" }}
+    className={className}
+  >
     <Stack
       gap={1}
       direction={

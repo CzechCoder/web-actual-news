@@ -78,8 +78,16 @@ export default async function HomePage() {
               {headlinesMedium.map((article: Article) => (
                 <HeadlinePost key={article.id} {...article} />
               ))}
+
               {headlinesSmall.map((article: Article) => (
-                <SnippetPost key={article.id} {...article} type="horizontal" />
+                <SnippetPost
+                  key={article.id}
+                  slug={article.slug}
+                  image_url={article.image_url}
+                  title={article.title}
+                  type="horizontal"
+                  className="border-t border-gray-300 pt-4"
+                />
               ))}
             </Stack>
           </Grid>
