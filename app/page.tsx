@@ -1,9 +1,21 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import Image from "next/image";
+import {
+  Box,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 import { getArticles } from "@/app/actions";
 import { Article } from "@/app/types/general";
+import {
+  FeaturedPost,
+  HeadlinePost,
+  SnippetPost,
+  TitlePost,
+} from "./components/post-card";
 
 export const dynamic = "force-dynamic"; // for SSR
 
@@ -20,51 +32,70 @@ export default async function HomePage() {
     );
   }
 
+  // Left column
   const featured = articles[0];
-  const rest = articles.slice(1, 5);
-  const moreArticles = articles.slice(5);
+  const titles = articles.slice(1, 7);
+  const thumbs = articles.slice(7, 10);
+
+  // Middle column
+  const headlinesBig = articles.slice(10, 13);
+
+  // Right column
+  const headlinesMedium = articles.slice(13, 15);
+  const headlinesSmall = articles.slice(15, 19);
 
   return (
     <main>
       <section>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
+          {/* Left */}
           <Grid size={5}>
             <Stack
-              className="border-amber-600 border"
+              // className="border-amber-600 border"
               direction="column"
               gap={1}
             >
-              <Link href={`/article/${featured.slug}`}>
-                <Box display="flex" flexDirection="column" gap={1}>
-                  <Typography variant="h3">{featured.title}</Typography>
-                  <Image
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    priority
-                    className="w-full h-auto object-cover"
-                    src={featured.image_url}
-                    alt="featured image"
-                  />
-                  <Typography variant="h5">{featured.excerpt}</Typography>
-                </Box>
-              </Link>
+              <FeaturedPost {...featured} />
               <Stack>
-                {rest.map((article: Article) => (
-                  <Box key={article.id} mb={2}>
-                    <Typography variant="h6" sx={{ cursor: "pointer" }}>
-                      {article.title}
-                    </Typography>
-                  </Box>
+                <List dense sx={{ listStyleType: "disc", pl: 4 }}>
+                  {titles.map((article: Article) => (
+                    <ListItem sx={{ display: "list-item" }}>
+                      <TitlePost
+                        key={article.id}
+                        slug={article.slug}
+                        title={article.title}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Stack>
+              <Stack direction="row" gap={1}>
+                {thumbs.map((article: Article) => (
+                  <SnippetPost key={article.id} {...article} type="vertical" />
                 ))}
               </Stack>
             </Stack>
           </Grid>
+          {/* Middle */}
           <Grid size={4}>
-            <div className="w-full border-amber-600 border">Articles</div>
+            {/* <div className="w-full border-amber-600 border">Articles</div> */}
+            <Stack direction="column" gap={2}>
+              {headlinesBig.map((article: Article) => (
+                <HeadlinePost key={article.id} {...article} />
+              ))}
+            </Stack>
           </Grid>
+          {/* Right */}
           <Grid size={3}>
-            <div className="w-full border-amber-600 border">Articles</div>
+            {/* <div className="w-full border-amber-600 border">Articles</div> */}
+            <Stack direction="column" gap={2}>
+              {headlinesMedium.map((article: Article) => (
+                <HeadlinePost key={article.id} {...article} />
+              ))}
+              {headlinesSmall.map((article: Article) => (
+                <SnippetPost key={article.id} {...article} type="horizontal" />
+              ))}
+            </Stack>
           </Grid>
         </Grid>
       </section>
