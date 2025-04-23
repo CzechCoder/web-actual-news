@@ -6,12 +6,16 @@ declare module "@mui/material/styles" {
     largeTitle: React.CSSProperties;
     mediumTitle: React.CSSProperties;
     smallTitle: React.CSSProperties;
+    navbarText: React.CSSProperties;
+    headline: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     largeTitle?: React.CSSProperties;
     mediumTitle?: React.CSSProperties;
     smallTitle?: React.CSSProperties;
+    navbarText?: React.CSSProperties;
+    headline?: React.CSSProperties;
   }
 }
 
@@ -20,6 +24,8 @@ declare module "@mui/material/Typography" {
     largeTitle: true;
     mediumTitle: true;
     smallTitle: true;
+    navbarText: true;
+    headline: true;
   }
 }
 
@@ -41,6 +47,16 @@ const theme = createTheme({
       fontSize: "16px",
       fontWeight: 400,
       lineHeight: "22px",
+    },
+    navbarText: {
+      fontSize: "16px",
+      fontWeight: 400,
+      lineHeight: "22px",
+    },
+    headline: {
+      fontSize: "42px",
+      fontWeight: 700,
+      lineHeight: "48px",
     },
   },
   palette: {

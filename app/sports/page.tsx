@@ -3,7 +3,6 @@ import { Grid, List, ListItem, Stack, Typography } from "@mui/material";
 import { getArticles } from "@/app/actions";
 import { Article } from "@/app/types/general";
 import {
-  FeaturedPost,
   HeadlinePost,
   SnippetPost,
   TitlePost,
@@ -11,9 +10,10 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const articles = await getArticles();
+export default async function WorldPage() {
+  const articles = await getArticles("sports");
 
+  // Should be 18 articles per category
   console.log(articles);
 
   if (!articles || articles.length === 0) {
@@ -39,11 +39,14 @@ export default async function HomePage() {
   return (
     <main>
       <section>
+        <Typography variant="headline" className="!pb-8 block">
+          Sports
+        </Typography>
         <Grid container spacing={3}>
           {/* Left */}
           <Grid size={5}>
             <Stack direction="column" gap={1}>
-              <FeaturedPost {...featured} />
+              <HeadlinePost {...featured} />
               <Stack>
                 <List dense sx={{ listStyleType: "disc", pl: 4 }}>
                   {titles.map((article: Article) => (

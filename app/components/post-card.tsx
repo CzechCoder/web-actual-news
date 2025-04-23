@@ -1,4 +1,10 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Stack,
+  Typography,
+  TypographyVariant,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
@@ -27,14 +33,22 @@ type SnippetProps = {
 
 type TitleProps = { slug: string; title: string };
 
-const CustomText = ({
+export const CustomText = ({
   text,
   variant,
+  className,
 }: {
   text: string;
-  variant: "largeTitle" | "mediumTitle" | "smallTitle";
+  variant:
+    | "largeTitle"
+    | "mediumTitle"
+    | "smallTitle"
+    | "navbarText"
+    | TypographyVariant;
+  className?: string;
 }) => (
   <Typography
+    className={className}
     variant={variant}
     sx={{
       "&:hover": {

@@ -2,8 +2,21 @@
 
 import prisma from "@/app/lib/prisma-client";
 
-export async function getArticles() {
+const categoryIdMatch: { [key: string]: number } = {
+  politics: 1,
+  world: 2,
+  business: 3,
+  sports: 4,
+  entertainment: 5,
+};
+
+export async function getArticles(category?: keyof typeof categoryIdMatch) {
+  const categoryId: number = (category && categoryIdMatch[category]) || 0;
+  console.log(categoryId);
   return await prisma.article.findMany({
+    where: {
+      ...(categoryId && { category_id: categoryId }), // Only filter by category if provided
+    },
     include: {
       category: true,
     },
@@ -13,6 +26,18 @@ export async function getArticles() {
     take: 20,
   });
 }
+
+// export async function getArticles() {
+//   return await prisma.article.findMany({
+//     include: {
+//       category: true,
+//     },
+//     orderBy: {
+//       id: "asc",
+//     },
+//     take: 20,
+//   });
+// }
 
 // "use server";
 
